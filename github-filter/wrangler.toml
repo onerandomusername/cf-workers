@@ -1,0 +1,11 @@
+name = "github-filter"
+type = "webpack"
+account_id = 'a574887f781a5eb9ca21e1fab8627bd0'
+workers_dev = true
+route = ""
+zone_id = ""
+webpack_config = "webpack.config.js"
+kv_namespaces = [
+    { binding = "labels", id = "caaf3c8e87d744858974ed81d70a16c4" }
+]
+compatibility_date = "2021-12-28"
