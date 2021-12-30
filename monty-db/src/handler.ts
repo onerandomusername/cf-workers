@@ -18,10 +18,16 @@ export async function handleRequest(request: Request): Promise<Response> {
   }
 
   // Check the body is valid json and parse it
+  if (request.method === 'GET') {
+    return await getKeys(request)
+  }
+
   let json: any
   try {
     // we're using this instead of Request.json() because that logs an error internally on fail
-    json = JSON.parse(await request.text())
+    const text = await request.text()
+    console.log(text)
+    json = JSON.parse(text)
   } catch (e) {
     if (e instanceof SyntaxError) {
       return new Response(JSON.stringify({ error: e.toString() }), {
@@ -39,8 +45,6 @@ export async function handleRequest(request: Request): Promise<Response> {
   // actually execute the request
   if (request.method === 'POST' || request.method === 'PUT') {
     return putKeys(request, json)
-  } else if (request.method === 'GET') {
-    return getKeys(request, json)
   } else if (request.method === 'DELETE') {
     return deleteKeys(request, json)
   } else {

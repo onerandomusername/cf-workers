@@ -5,20 +5,21 @@ workers_dev = true
 compatibility_date = "2021-12-29"
 webpack_config = "webpack.config.js"
 
+kv_namespaces = [
+    { binding = "MONTY_DB", id = "c40390b0155d46baaf72b704f760de03", preview_id = '938af974f9684bbaab63ce6c5c7530d9' },
+]
+
+
 [build]
 command = "npm install && npm run build"
 [build.upload]
 format = "service-worker"
 
-[env.dev]
-kv_namespaces = [
-    { binding = "MONTY_DB", id = "dea7faea56d14a47bbb18004d7410f73", preview_id = 'c65433e4705948ee856cbf181e9765b8' },
-]
-
-[env.prod]
-kv_namespaces = [
-    { binding = "MONTY_DB", id = "c40390b0155d46baaf72b704f760de03" },
-]
 
 # [secrets]
 # MONTY_DB_TOKEN
+
+
+[miniflare]
+kv_persist = "redis://localhost:6379"
+port = 8555
