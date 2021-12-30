@@ -37,7 +37,7 @@ export async function getKeys(request: Request): Promise<Response> {
   let invalidOrMissingJson = false
   try {
     toGet = JSON.parse(json)
-    console.log(toGet)
+    // console.log(toGet)
   } catch (e) {
     invalidOrMissingJson = true
   }
@@ -66,6 +66,24 @@ export async function getKeys(request: Request): Promise<Response> {
   )
 }
 
+export async function listKeys(request: Request): Promise<Response> {
+  const url = new URL(request.url)
+  const query = url.searchParams.get('query') || null
+  if (!query) {
+    return new Response(JSON.stringify({ error: 'No query provided' }), {
+      status: 400,
+      headers: HEADERS,
+    })
+  }
+
+  const keys = await MONTY_DB.list({ prefix: query })
+  // console.log(keys)
+  return new Response(JSON.stringify({ result: keys }), {
+    status: 200,
+    headers: HEADERS,
+  })
+}
+
 export async function deleteKeys(
   request: Request,
   json: any,
@@ -78,9 +96,9 @@ export async function deleteKeys(
     })
   }
 
-  console.log(keys)
+  // console.log(keys)
   for (const k in keys) {
-    console.log(keys[k])
+    // console.log(keys[k])
     await MONTY_DB.delete(keys[k])
   }
   return new Response(null, { status: 204, headers: HEADERS })
